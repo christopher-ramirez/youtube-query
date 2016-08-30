@@ -1,0 +1,25 @@
+{
+  "name": "youtube-query",
+  "version": "0.0.1",
+  "description": "Node Package useful to query Youtube data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christopher-ramirez/youtube-query.git"
+  },
+  "keywords": [
+    "Youtube"
+  ],
+  "author": "Christopher Ramírez <chris.ramirezg [at] gmail>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christopher-ramirez/youtube-query/issues"
+  },
+  "homepage": "https://github.com/christopher-ramirez/youtube-query#readme",
+  "devDependencies": {
+    "request": "^2.74.0"
+  }
+}

@@ -41,7 +41,7 @@ Base class which provides access to videos. Requires an API Key to be initializa
 #### Properties
 Property | Definition | Description
 --- | --- | ---
-**videos** | `Videos` | A list of most recent popular videos |
+**videos** | [Videos](#videos-class) | A list of most recent popular videos |
 
 #### Videos class
 A class inherited from Array. Implements a list of videos.

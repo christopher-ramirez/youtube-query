@@ -9,11 +9,11 @@ sinon.stub(request, 'Request', function testReponse(params) {
     params.callback(undefined, {statusCode: 200}, JSON.stringify({
         nextPageToken: 'abcde',
         pageInfo: {totalResults: 0},
-        items: [1, 2, 3]
+        items: [{id: {videoId: '123'}}, 2, 3]
     }))
 })
 
-describe('Videos', () => {
+describe('Videos class', () => {
     it('Should create an empty array with default props', () => {
         var videos = new testedMod.Videos()
         assert.equal(videos.length, 0)
@@ -69,6 +69,19 @@ describe('Videos', () => {
             assert.ok(request.Request.calledWithMatch(
                 sinon.match.has('uri', sinon.match('q=workout'))),
                 'Wasn\'t called with spected "query" value.')
+        })
+    })
+
+})
+
+describe('Video class', () => {
+    it('Should retrieve related videos', () => {
+        testedMod.Videos().fetch(videos => {
+            var video = videos[0]
+            video.relatedVideos().fetch()
+            assert.ok(request.Request.calledWithMatch(
+                sinon.match.has('uri', sinon.match('relatedToVideoId=123'))),
+                'Wasn\'t called with spected "relatedToVideoId" param.')
         })
     })
 })

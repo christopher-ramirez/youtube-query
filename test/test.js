@@ -1,7 +1,8 @@
 'use strict'
 
 var request = require('request'),
-    mod = require('../.'),
+    { Youtube } = require('../.'),
+    { Resource } = require('../lib/resource.js'),
     sinon = require('sinon'),
     assert = require('assert')
 
@@ -10,16 +11,42 @@ sinon.stub(request, 'Request', function testReponse(params) {
         nextPageToken: 'abcde',
         pageInfo: {totalResults: 0},
         items: [{id: {videoId: '123'}}, 2, 3]
-    }))    
+    }))
 })
 
 describe('Youtube class', () => {
+    let youtube = new Youtube('key');
     it('Should create a Youtube instance with access to resource props', () => {
-        let yt = new mod.Youtube('key');
-        assert.equal(yt.key, 'key');
-        assert.ok('videos' in yt, 'Youtube clas should offer a "videos" property.');
-        assert.equal(yt.videos.key, 'key', 'Resources must inherit key property.');
-        assert.ok(Array.isArray(yt.videos), 'Videos property should be an Array.')
-        assert.ok('call' in yt.search, 'Search property should be an closure.')
+        assert.equal(youtube.key, 'key');
+        assert.ok('videos' in youtube, '"Youtube" class should offer a "videos" property.');
     });
+
+    it('Youtube.video property be a factory', () => {
+        assert.notEqual(youtube.videos, youtube.videos, 'Subsecuent read of `videos` should return a new instance')
+    })
+
+    describe('Youtube.videos property', () => {
+        let videos = youtube.videos;
+
+        it('Must inherit "key" property.', ()=> {
+            assert.equal(videos.key, 'key');
+        })
+
+        it('Must be an array', () => {
+            assert.ok(Array.isArray(videos), '"videos" property should be an Array.')
+        })
+
+        it("Should have all Resource properties", () => {
+            Object.getOwnPropertyNames(Resource).forEach((prop) => {
+                assert.ok(prop in videos, `"${prop}" not in videos.`)
+            })
+        })
+    })
+
+    describe('Youtube.search property', () => {
+        let search = youtube.search;
+        it("Should be a closure", () => {
+            assert.ok('call' in search, '"search" property should be a closure.')
+        })
+    })
 })

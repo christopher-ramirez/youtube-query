@@ -45,8 +45,19 @@ describe('Youtube class', () => {
 
     describe('Youtube.search property', () => {
         let search = youtube.search;
+
         it("Should be a closure", () => {
             assert.ok('call' in search, '"search" property should be a closure.')
+        })
+
+        it('Should throw when called without a query value', () => {
+            assert.throws(() => { search() },
+                          /provide a search query/, 'We were expecting an error here.')
+        })
+
+        it('Should NOT throw when called with a query value', () => {
+            assert.doesNotThrow(() => { search('query') },
+                                Error, 'We were NOT expecting an error here.')
         })
     })
 })

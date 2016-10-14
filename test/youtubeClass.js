@@ -1,4 +1,4 @@
-const Youtube = require('../.').Youtube
+const Youtube = require('../.')
 const expect = require('chai').expect
 
 describe('Youtube class', () => {

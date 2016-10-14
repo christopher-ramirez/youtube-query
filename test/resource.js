@@ -36,13 +36,13 @@ describe('Resource', () => {
         const sendReqMock = simple.mock(resource, 'sendRequest')
         
         describe('fetch() polymorphisms', () => {
-            /* fetch() is a polymorphism function.
-             * when its first parameter is a number, it is taken as `maxResults'
-             * for the request to Youtube. In this case, the second argument will
-             * be a success callback.
+            /* fetch() is a polymorphism function. This means that when called
+             * and its first parameter is a number, it is taken as the value for
+             * `maxResults' Youtube API param. In this case, the second argument
+             * is a success callback, and a thrid argument is a rejection callback
              * 
              * If the first parameter is a function, then we treat it as a success
-             * callback, the second argument (if any) if an rejection handler.
+             * callback, the second argument (if any) is an rejection handler.
              */ 
             it('should handle numbers as first parameter', () => {
                 resource.fetch(44)

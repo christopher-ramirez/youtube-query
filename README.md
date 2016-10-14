@@ -1,65 +1,30 @@
 # Youtube Query
-Node Package useful for quering Youtube data using the Youtube Data API v3.
 
-Useful for querying and searching videos.
+`youtube-query` tries to be an utility to easy query public information on Youtube, like popular videos, public playlists, etc.
 
-### Installation (STILL NOT PUBLISHED IN NPM)
-    $  npm install ????
-
-
-### Base functionality
+This library tries to greatly simplify the retrieval of public Youtube graph data, so it can be easily used in robots, utilities, webapps etc.
 
 ```javascript
-    Youtube = require('youtube-query').Youtube
-    
-    var myAPIKey = '---secret-api-key-----',
-        youtubeClient = new Youtube(myAPIKey)
-        
-    // Get lastest 10 popular videos
-    var lastestVideos = youtubeClient.videos.fetch(10)
-    console.log(lastestVideos)
-    
-    // fetch next 10 popular videos
-    lastestVideos.next(10)
-    
-    // get popular videos in mx
-    var mxLastestVideos = lastestVideos.filter({regionCode: 'MX'})
-    mxLastestVideos.fetch()
-    
-    // search over Mexico popular videos
-    var mxVideosSearch = mxLastestVideos.search('azteca')
-    mxVideosSearch.fetch(10)
-    
-    // search science channels
-    var channels = youtubeClient.videos.search('science').filter({type: 'channel'})
+    const Youtube = require('youtube-query')
+    const APIKey = 'secret-key'
+
+    const client = new Youtube(APIKey)
+
+    // get the lastest 10 popular Videos on Youtube
+    client.videos.fetch(10, (err, videos) => {
+        let lastest10Popular = videos
+    })
+
+    // get the lastest 10 popular videos in Mexico
+    client.video.filter({regionCode: 'MX'}).fetch(10, (err, videos) => { ... })
+    // Please see https://developers.google.com/youtube/v3/docs/videos/list#parameters
+    // for a complete list and documentation of available parameters
+
+    // search Youtube
+    client.search('funny videos').fetch(10, (err, videos) => {
+        // once resolved, fetch the next 20 funny videos
+        videos.next(20, (err, nextVideos) => {
+            // ...
+        })
+    })
 ```
-
-### API Documentation
-#### Youtube class
-Base class which provides access to videos. Requires an API Key to be initializated.
-
-#### Properties
-Property | Definition | Description
---- | --- | ---
-**videos** | [Videos](#videos-class) | A list of most recent popular videos |
-
-#### Videos class
-A class inherited from Array. Implements a list of videos.
-
-##### Properties
-Property | Definition | Description
---- | --- | ---
-**fetch** | `function(max, callback, errorCallback)` | Fetchs part/page of the list of videos. Call `next()` to fetch the next part. |
-**next** | `function(max, callback, errorCallback)` | Fetch next page of results. |
-**search** | `function(queryString)` | Returns an Instance of `Videos` for retrieving search results for `queryString`. |
-**filters** | `Object` | An object of filters and params to be used for the query. |
-**filter** | `function(filterObject)` | Returns an instance of `Videos` with its property `filters` extended with values in `filterObject` |
-**parts** | Array | A list of one or more **video** resource properties that the API response will include. |
-**totalResults** | Integer | Total videos which cumplies with applied query filters. |
-**resultsPerPage** | Integer | Default page size used in `fetch()` and `next()` |
-**$resolved** | Bool | `true` when a API request is resolved. `false` otherwise. |
-
-### TODO:
-* Retrieve handling of Playlists
-* Implement Video class (`video.releatedVideos`)
-  

@@ -20,8 +20,9 @@
   },
   "homepage": "https://github.com/christopher-ramirez/youtube-query#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
     "mocha": "^3.0.2",
-    "sinon": "^1.17.5"
+    "simple-mock": "^0.7.0"
   },
   "dependencies": {
     "request": "^2.74.0"

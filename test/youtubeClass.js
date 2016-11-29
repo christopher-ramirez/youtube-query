@@ -1,4 +1,4 @@
-const Youtube = require('../.')
+const Youtube = require('../source')
 const expect = require('chai').expect
 
 describe('Youtube class', () => {
@@ -36,7 +36,7 @@ describe('Youtube class', () => {
             expect('filter' in search).to.be.ok
             expect('next' in search).to.be.ok
         })
-        
+
         it('should perform a search on Youtube', () => {
             expect('q' in search.filters).to.be.ok
             expect(search.resource).to.equal('search')

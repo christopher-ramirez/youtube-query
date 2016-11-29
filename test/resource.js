@@ -1,11 +1,11 @@
 const request = require('request')
-const createResource = require('../lib/resource').createResource
+const createResource = require('../source/lib/resource').createResource
 const simple = require('simple-mock')
 const expect = require('chai').expect
 
 describe('Resource', () => {
     const resource = createResource({key: 'abc'})
-    
+
     it('should be an array', () => {
         expect(Array.isArray(resource)).to.be.ok
     })
@@ -34,16 +34,16 @@ describe('Resource', () => {
 
     describe('Internal interaction with Youtube API', () => {
         const sendReqMock = simple.mock(resource, 'sendRequest')
-        
+
         describe('fetch() polymorphisms', () => {
             /* fetch() is a polymorphism function. This means that when called
              * and its first parameter is a number, it is taken as the value for
              * `maxResults' Youtube API param. In this case, the second argument
              * is a success callback, and a thrid argument is a rejection callback
-             * 
+             *
              * If the first parameter is a function, then we treat it as a success
              * callback, the second argument (if any) is an rejection handler.
-             */ 
+             */
             it('should handle numbers as first parameter', () => {
                 resource.fetch(44)
                 expect(sendReqMock.lastCall.arg).to.contain('&maxResults=44')
@@ -60,7 +60,7 @@ describe('Resource', () => {
                 const reject = () => {}
                 resource.fetch(success, reject)
                 expect(sendReqMock.lastCall.args[1]).to.equal(success)
-                expect(sendReqMock.lastCall.args[2]).to.equal(reject)                
+                expect(sendReqMock.lastCall.args[2]).to.equal(reject)
             })
         })
 
